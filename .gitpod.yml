@@ -1,0 +1,10 @@
+ports:
+  - port: 3333
+    onOpen: ignore
+tasks:
+  - init: yarn
+    command: >
+      cp .env.example .env;
+      docker-compose up -d;
+      yarn typeorm migration:run;
+      yarn dev

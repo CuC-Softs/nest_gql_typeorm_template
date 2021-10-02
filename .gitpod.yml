@@ -1,6 +1,7 @@
 ports:
   - port: 3333
-    onOpen: ignore
+    onOpen: open-browser
+    visibility: public
 tasks:
   - init: yarn
     command: >

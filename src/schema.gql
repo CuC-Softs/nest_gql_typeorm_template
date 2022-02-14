@@ -21,14 +21,14 @@ type AuthType {
 }
 
 type Query {
-  users: [User!]!
-  user(id: String!): User!
+  users(offset: Float, limit: Float): [User!]!
+  user(id: Float!): User!
 }
 
 type Mutation {
   createUser(data: CreateUserInput!): User!
-  updateUser(data: UpdateUserInput!, id: String!): User!
-  deleteUser(id: String!): Boolean!
+  updateUser(data: UpdateUserInput!, id: Float!): User!
+  deleteUser(id: Float!): Boolean!
   login(data: AuthInput!): AuthType!
 }
 

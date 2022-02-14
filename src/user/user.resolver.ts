@@ -6,7 +6,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-@Resolver()
+@Resolver(() => User)
 export class UserResolver {
   constructor(private userService: UserService) {}
 

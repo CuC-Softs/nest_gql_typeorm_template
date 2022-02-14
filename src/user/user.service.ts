@@ -19,8 +19,10 @@ export class UserService {
     return;
   }
 
-  async findAllUsers(): Promise<User[]> {
-    const users = await this.userRepository.find();
+  async findAllUsers(limit?: number, offset = 1): Promise<User[]> {
+    const users = limit
+      ? this.userRepository.find({ take: limit, skip: offset - 1 })
+      : await this.userRepository.find();
     return users;
   }
 

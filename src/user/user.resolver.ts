@@ -13,8 +13,13 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async users(): Promise<User[]> {
-    const users = await this.userService.findAllUsers();
+  async users(
+    @Args('limit', { nullable: true }) limit?: number,
+    @Args('offset', { nullable: true }) offset?: number,
+  ): Promise<User[]> {
+    const users = limit
+      ? await this.userService.findAllUsers(limit, offset)
+      : await this.userService.findAllUsers();
     return users;
   }
 

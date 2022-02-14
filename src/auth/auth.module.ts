@@ -19,8 +19,4 @@ import { JwtStrategy } from './jwt.stategy';
   ],
   providers: [AuthService, AuthResolver, UserService, JwtStrategy],
 })
-export class AuthModule {
-  constructor() {
-    return;
-  }
-}
+export class AuthModule {}

@@ -8,9 +8,7 @@ import { UserService } from './user.service';
 
 @Resolver()
 export class UserResolver {
-  constructor(private userService: UserService) {
-    return;
-  }
+  constructor(private userService: UserService) {}
 
   @Query(() => [User])
   async users(

@@ -15,9 +15,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {
-    return;
-  }
+  ) {}
 
   async findAllUsers(limit?: number, offset = 1): Promise<User[]> {
     const users = limit

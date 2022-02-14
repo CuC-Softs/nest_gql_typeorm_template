@@ -45,17 +45,16 @@ export class UserService {
     try {
       const userExists = await this.findUserByEmail(data.email);
       exists = !!userExists;
-      // eslint-disable-next-line prettier/prettier
-    } catch (err) { }
+    } catch (err) {}
     if (exists) {
       throw new BadRequestException(
-        `the user with email:${data.email} already exists`,
+        `the user with email: ${data.email} already exists`,
       );
     }
     const user = this.userRepository.create(data);
     const saved = await this.userRepository.save(user);
     if (!saved) {
-      throw new InternalServerErrorException('failed to create user');
+      throw new InternalServerErrorException('fail to create user');
     }
     return saved;
   }
@@ -70,7 +69,7 @@ export class UserService {
 
   async deleteUser(id: number): Promise<void> {
     const user = await this.findUserById(id);
-    const deleted = await this.userRepository.delete(user);
+    const deleted = await this.userRepository.delete(user.id);
     if (!deleted) {
       throw new InternalServerErrorException(
         'cannot delete the user: ' + user.name,

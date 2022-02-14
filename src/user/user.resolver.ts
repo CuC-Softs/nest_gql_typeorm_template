@@ -19,7 +19,7 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  async user(@Args('id') id: string): Promise<User> {
+  async user(@Args('id') id: number): Promise<User> {
     const user = await this.userService.findUserById(id);
     return user;
   }
@@ -33,15 +33,16 @@ export class UserResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async updateUser(
-    @Args('id') id: string,
+    @Args('id') id: number,
     @Args('data') data: UpdateUserInput,
   ): Promise<User> {
     const user = await this.userService.updateUser(id, data);
     return user;
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Boolean)
-  async deleteUser(@Args('id') id: string) {
+  async deleteUser(@Args('id') id: number) {
     await this.userService.deleteUser(id);
     return true;
   }

@@ -24,7 +24,7 @@ export class UserService {
     return users;
   }
 
-  async findUserById(id: string): Promise<User> {
+  async findUserById(id: number): Promise<User> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException('user not found');
@@ -60,7 +60,7 @@ export class UserService {
     return saved;
   }
 
-  async updateUser(id: string, data: UpdateUserInput) {
+  async updateUser(id: number, data: UpdateUserInput) {
     const user = await this.findUserById(id);
     const updatedUser = await this.userRepository.save(
       Object.assign(user, data),
@@ -68,7 +68,7 @@ export class UserService {
     return updatedUser;
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async deleteUser(id: number): Promise<void> {
     const user = await this.findUserById(id);
     const deleted = await this.userRepository.delete(user);
     if (!deleted) {

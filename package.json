@@ -22,7 +22,10 @@
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "test:verb": "jest --verbose",
         "dev": "nest start --watch",
-        "typeorm": "ts-node ./node_modules/typeorm/cli.js"
+        "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+        "seed:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -c seed -n ",
+        "seed:run": "ts-node ./node_modules/typeorm/cli.js migration:run -c seed",
+        "seed:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -c seed"
     },
     "dependencies": {
         "@nestjs/common": "^8.0.0",

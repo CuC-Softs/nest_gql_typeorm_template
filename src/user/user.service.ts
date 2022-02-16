@@ -15,16 +15,16 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {
-    return;
-  }
+  ) {}
 
-  async findAllUsers(): Promise<User[]> {
-    const users = await this.userRepository.find();
+  async findAllUsers(limit?: number, offset = 1): Promise<User[]> {
+    const users = limit
+      ? this.userRepository.find({ take: limit, skip: offset - 1 })
+      : await this.userRepository.find();
     return users;
   }
 
-  async findUserById(id: string): Promise<User> {
+  async findUserById(id: number): Promise<User> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException('user not found');
@@ -45,22 +45,21 @@ export class UserService {
     try {
       const userExists = await this.findUserByEmail(data.email);
       exists = !!userExists;
-      // eslint-disable-next-line prettier/prettier
-    } catch (err) { }
+    } catch (err) {}
     if (exists) {
       throw new BadRequestException(
-        `the user with email:${data.email} already exists`,
+        `the user with email: ${data.email} already exists`,
       );
     }
     const user = this.userRepository.create(data);
     const saved = await this.userRepository.save(user);
     if (!saved) {
-      throw new InternalServerErrorException('failed to create user');
+      throw new InternalServerErrorException('fail to create user');
     }
     return saved;
   }
 
-  async updateUser(id: string, data: UpdateUserInput) {
+  async updateUser(id: number, data: UpdateUserInput) {
     const user = await this.findUserById(id);
     const updatedUser = await this.userRepository.save(
       Object.assign(user, data),
@@ -68,9 +67,9 @@ export class UserService {
     return updatedUser;
   }
 
-  async deleteUser(id: string): Promise<void> {
+  async deleteUser(id: number): Promise<void> {
     const user = await this.findUserById(id);
-    const deleted = await this.userRepository.delete(user);
+    const deleted = await this.userRepository.delete(user.id);
     if (!deleted) {
       throw new InternalServerErrorException(
         'cannot delete the user: ' + user.name,

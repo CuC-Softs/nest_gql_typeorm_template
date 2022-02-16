@@ -40,7 +40,7 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.find.mockReturnValue([mockUser, mockUser]);
       const users = await service.findAllUsers();
       expect(users).toHaveLength(2);
@@ -52,7 +52,7 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.save.mockReturnValue(mockUser);
       mockRepository.findOne.mockReturnValue(null);
       const user = await service.createUser({
@@ -65,11 +65,11 @@ describe('UserService', () => {
         name: 'test',
       });
     });
-    it('should throw an error if an user with de given email aready exists', async () => {
+    it('should throw an error if an user with de given email already exists', async () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.save.mockReturnValue(mockUser);
       mockRepository.findOne.mockReturnValue(mockUser);
       await service
@@ -81,7 +81,7 @@ describe('UserService', () => {
         .catch((e) => {
           expect(e).toBeInstanceOf(BadRequestException);
           expect(e).toMatchObject({
-            message: `the user with email:${mockUser.email} already exists`,
+            message: `the user with email: ${mockUser.email} already exists`,
           });
         });
     });
@@ -97,7 +97,7 @@ describe('UserService', () => {
         .catch((err) => {
           expect(err).toBeInstanceOf(InternalServerErrorException);
           expect(err).toMatchObject({
-            message: `Failed to create user`,
+            message: 'fail to create user',
           });
         });
     });
@@ -108,13 +108,13 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.findOne.mockReturnValue(mockUser);
       mockRepository.save.mockReturnValue({
         email: 'test@example.com',
         name: 'testando',
       });
-      const user = await service.updateUser('1', { name: 'testando' });
+      const user = await service.updateUser(1, { name: 'testando' });
       expect(user.name).toBe('testando');
     });
   });
@@ -124,15 +124,15 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.findOne.mockReturnValue(mockUser);
-      const user = await service.findUserById('1');
-      expect(user.id).toBe('1');
+      const user = await service.findUserById(1);
+      expect(user.id).toBe(1);
       expect(user).toBeInstanceOf(User);
     });
     it('should return an error if the user with de given id does not exist', async () => {
       mockRepository.findOne.mockReturnValue(null);
-      await service.findUserById('1').catch((err) => {
+      await service.findUserById(1).catch((err) => {
         expect(err).toBeInstanceOf(NotFoundException);
         expect(err).toMatchObject({ message: 'user not found' });
       });
@@ -144,7 +144,7 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.findOne.mockReturnValue(mockUser);
       await service.deleteUser(mockUser.id);
     });
@@ -152,10 +152,10 @@ describe('UserService', () => {
       const mockUser = new User();
       mockUser.email = 'test@example.com';
       mockUser.name = 'test';
-      mockUser.id = '1';
+      mockUser.id = 1;
       mockRepository.findOne.mockReturnValue(mockUser);
       mockRepository.delete.mockReturnValue(null);
-      await service.deleteUser('1').catch((err) => {
+      await service.deleteUser(1).catch((err) => {
         expect(err).toBeInstanceOf(InternalServerErrorException);
         expect(err).toMatchObject({
           message: 'cannot delete the user: ' + mockUser.name,

@@ -6,6 +6,7 @@ import { FactoryModule } from 'typeorm-factories';
 import { User } from './user.entity';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
 
 describe('UserResolver', () => {
   let resolver: UserResolver;
@@ -17,6 +18,7 @@ describe('UserResolver', () => {
       providers: [
         UserService,
         UserResolver,
+        GqlAuthGuard,
         {
           provide: getRepositoryToken(User),
           useValue: mockRepository,

@@ -20,8 +20,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor() {
-    return;
-  }
-}
+export class AppModule {}

@@ -6,20 +6,23 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-@Resolver()
+@Resolver(() => User)
 export class UserResolver {
-  constructor(private userService: UserService) {
-    return;
-  }
+  constructor(private userService: UserService) {}
 
   @Query(() => [User])
-  async users(): Promise<User[]> {
-    const users = await this.userService.findAllUsers();
+  async users(
+    @Args('limit', { nullable: true }) limit?: number,
+    @Args('offset', { nullable: true }) offset?: number,
+  ): Promise<User[]> {
+    const users = limit
+      ? await this.userService.findAllUsers(limit, offset)
+      : await this.userService.findAllUsers();
     return users;
   }
 
   @Query(() => User)
-  async user(@Args('id') id: string): Promise<User> {
+  async user(@Args('id') id: number): Promise<User> {
     const user = await this.userService.findUserById(id);
     return user;
   }
@@ -33,15 +36,16 @@ export class UserResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async updateUser(
-    @Args('id') id: string,
+    @Args('id') id: number,
     @Args('data') data: UpdateUserInput,
   ): Promise<User> {
     const user = await this.userService.updateUser(id, data);
     return user;
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Boolean)
-  async deleteUser(@Args('id') id: string) {
+  async deleteUser(@Args('id') id: number) {
     await this.userService.deleteUser(id);
     return true;
   }

@@ -9,11 +9,11 @@ import {
 } from 'typeorm';
 
 @ObjectType()
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id: string;
+  id: number;
 
   @Column()
   name: string;
@@ -27,9 +27,9 @@ export class User {
   @HideField()
   password: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
